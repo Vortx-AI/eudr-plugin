@@ -1,0 +1,34 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-plugin-manifest.json",
+  "name": "eudr",
+  "displayName": "EUDR compliance",
+  "version": "0.3.0",
+  "description": "Check farm plots for forest loss after the EU Deforestation Regulation cut-off, find missing Article 9 information per supplier, and prepare a signed Annex II Due Diligence Statement.",
+  "author": {
+    "name": "Vortx AI Private Limited",
+    "email": "avijeet@vortx.ai",
+    "url": "https://vortx.ai"
+  },
+  "homepage": "https://eudr.dev",
+  "repository": "https://github.com/Vortx-AI/eudr-plugin",
+  "license": "Apache-2.0",
+  "keywords": [
+    "eudr",
+    "deforestation",
+    "compliance",
+    "supply-chain",
+    "agriculture",
+    "traceability",
+    "due-diligence",
+    "geospatial"
+  ],
+  "userConfig": {
+    "endpoint": {
+      "type": "string",
+      "title": "eudr.dev MCP endpoint",
+      "description": "Leave as-is to use the hosted service. Self-hosters point this at their own deployment's /mcp path.",
+      "required": false,
+      "default": "https://eudr.dev/mcp"
+    }
+  }
+}

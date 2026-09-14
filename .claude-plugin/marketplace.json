@@ -1,0 +1,39 @@
+{
+  "$schema": "https://code.claude.com/schemas/marketplace.json",
+  "name": "eudr",
+  "owner": {
+    "name": "Vortx AI Private Limited",
+    "email": "avijeet@vortx.ai",
+    "url": "https://vortx.ai"
+  },
+  "description": "EU Deforestation Regulation compliance for agricultural supply chains: plot checks against the 31 December 2020 cut-off, supplier evidence gaps under Article 9(1), and signed Annex II statements.",
+  "version": "0.3.0",
+  "plugins": [
+    {
+      "name": "eudr",
+      "displayName": "EUDR compliance",
+      "source": "./",
+      "description": "Check farm plots for forest loss after the EU Deforestation Regulation cut-off, find missing Article 9 information per supplier, and prepare a signed Annex II Due Diligence Statement.",
+      "version": "0.3.0",
+      "author": {
+        "name": "Vortx AI Private Limited",
+        "email": "avijeet@vortx.ai",
+        "url": "https://vortx.ai"
+      },
+      "homepage": "https://eudr.dev",
+      "repository": "https://github.com/Vortx-AI/eudr-plugin",
+      "license": "Apache-2.0",
+      "category": "compliance",
+      "keywords": [
+        "eudr",
+        "deforestation",
+        "compliance",
+        "supply-chain",
+        "agriculture",
+        "traceability",
+        "due-diligence",
+        "geospatial"
+      ]
+    }
+  ]
+}
