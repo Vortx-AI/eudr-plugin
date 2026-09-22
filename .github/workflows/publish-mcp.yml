@@ -16,7 +16,10 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Install mcp-publisher
-        run: npm install -g @anthropic-ai/mcp-publisher
+        run: |
+          VERSION=1.8.1
+          curl -sL "https://github.com/modelcontextprotocol/registry/releases/download/v${VERSION}/mcp-publisher_${VERSION}_linux_amd64.tar.gz" \
+            | tar xz -C /usr/local/bin mcp-publisher
       - name: Publish
         run: |
           mcp-publisher login github-oidc
