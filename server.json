@@ -1,0 +1,17 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "io.github.Vortx-AI/eudr",
+  "description": "Compile EUDR Annex II Due Diligence Statements from operator, supplier, and plot geolocation.",
+  "repository": {
+    "url": "https://github.com/Vortx-AI/eudr-plugin",
+    "source": "github"
+  },
+  "version": "1.0.0",
+  "remotes": [
+    {
+      "type": "streamable-http",
+      "url": "https://eudr.dev/mcp",
+      "authorizationType": "oauth2"
+    }
+  ]
+}
