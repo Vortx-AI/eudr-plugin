@@ -1,0 +1,10 @@
+{
+  "name": "eudr",
+  "display_name": "EUDR compliance",
+  "description": "Check agricultural plots against the EU Deforestation Regulation (EUDR) cut-off of 31 December 2020 and prepare signed Annex II Due Diligence Statements.",
+  "category": "Environment & Nature",
+  "repository": "https://github.com/Vortx-AI/eudr-plugin",
+  "url": "https://eudr.dev",
+  "transport": "streamable-http",
+  "remote_url": "https://eudr.dev/mcp"
+}
