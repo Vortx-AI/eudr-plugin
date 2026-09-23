@@ -1,6 +1,6 @@
 {
-  "name": "eudr.dev",
-  "display_name": "eudr.dev",
+  "name": "eudr",
+  "display_name": "eudr",
   "description": "Compiles EU Deforestation Regulation Annex II Due Diligence Statements from operator + supplier + plot geolocation. Built on emem.dev (content-addressed, ed25519-signed Earth observation). Receipts verifiable offline. Ingests scenarios from CSV and GS1 EPCIS 2.0; exports receipts to the official TRACES NT v2 XML / SOAP shape.",
   "category": "Environment & Nature",
   "repository": "https://github.com/Vortx-AI/eudr-plugin",
