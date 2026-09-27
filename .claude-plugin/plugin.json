@@ -2,14 +2,16 @@
   "$schema": "https://json.schemastore.org/claude-code-plugin-manifest.json",
   "name": "eudr",
   "displayName": "EUDR compliance",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "description": "Check farm plots for forest loss after the EU Deforestation Regulation cut-off, find missing Article 9 information per supplier, and prepare a signed Annex II Due Diligence Statement.",
+  "icon": "./assets/icon.png",
   "author": {
     "name": "Vortx AI Private Limited",
     "email": "avijeet@vortx.ai",
     "url": "https://vortx.ai"
   },
   "homepage": "https://eudr.dev",
+  "privacyPolicyUrl": "https://eudr.dev/privacy",
   "repository": "https://github.com/Vortx-AI/eudr-plugin",
   "license": "Apache-2.0",
   "keywords": [
