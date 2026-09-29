@@ -2,7 +2,7 @@
   "mcpServers": {
     "eudr": {
       "type": "http",
-      "url": "${user_config.endpoint}"
+      "url": "https://eudr.dev/mcp"
     }
   }
 }
