@@ -1,0 +1,272 @@
+{
+  "$schema": "https://developers.openai.com/apps-sdk/schemas/chatgpt-app-submission.v1.json",
+  "schema_version": 1,
+  "app_info": {
+    "display_name": "eudr",
+    "subtitle": "EUDR due diligence checks",
+    "description": "EUDR checks production-plot boundaries against the 31 December 2020 forest cut-off in Regulation (EU) 2023/1115. Using the JRC GFC2020 baseline and Hansen Global Forest Change loss-year data, it reports per-plot coverage, observed forest-loss years, and a signed deforestation assessment. It also prepares Annex II Due Diligence Statements from operator, supplier, product, and geolocation information. Evidence and statements are content-addressed and Ed25519-signed through emem.dev, allowing their integrity and signer identity to be verified offline. It supports cattle, cocoa, coffee, oil palm, rubber, soya, and wood. Plot assessments cover Article 3(a) deforestation only. They do not establish full EUDR compliance or verify legality, land tenure, permits, FPIC, chain of custody, or forest degradation. The service prepares statements but does not file them with an authority.",
+    "category": "BUSINESS"
+  },
+  "tools": {
+    "eudr_check_plots": {
+      "annotations": {
+        "readOnlyHint": false,
+        "openWorldHint": true,
+        "destructiveHint": false
+      },
+      "justifications": {
+        "read_only_justification": "Calls emem.dev to create freshly signed plot measurements and stores a temporary evidence handle on eudr.dev.",
+        "open_world_justification": "Sends plot geometry, commodity, country, and quantity to emem.dev, which creates signed measurements in an external system.",
+        "destructive_justification": "Creates new evidence only and does not delete, overwrite, revoke access, or spend account credits."
+      }
+    },
+    "eudr_fetch_evidence": {
+      "annotations": {
+        "readOnlyHint": true,
+        "openWorldHint": false,
+        "destructiveHint": false
+      },
+      "justifications": {
+        "read_only_justification": "Retrieves a page from an existing temporary evidence set without creating or updating user records.",
+        "open_world_justification": "Reads the evidence handle from eudr.dev and does not contact or change a third-party system.",
+        "destructive_justification": "Does not delete, overwrite, revoke access, or perform an irreversible action."
+      }
+    },
+    "eudr_assess_evidence_gaps": {
+      "annotations": {
+        "readOnlyHint": true,
+        "openWorldHint": false,
+        "destructiveHint": false
+      },
+      "justifications": {
+        "read_only_justification": "Compares supplier details the caller supplies against the Article 9(1) checklist and returns what is missing. Nothing is stored.",
+        "open_world_justification": "Evaluates data in-process against the regulation's closed checklist without contacting an external system.",
+        "destructive_justification": "Produces a checklist without deleting, overwriting, or revoking anything."
+      }
+    },
+    "eudr_lookup_reference": {
+      "annotations": {
+        "readOnlyHint": true,
+        "openWorldHint": false,
+        "destructiveHint": false
+      },
+      "justifications": {
+        "read_only_justification": "Returns country risk tiers from Implementing Regulation 2025/1093 and the Annex I commodity mapping from bundled reference data.",
+        "open_world_justification": "Uses reference tables bundled with the service and makes no external call.",
+        "destructive_justification": "Only retrieves bundled reference data and cannot alter user or external state."
+      }
+    },
+    "eudr_verify_receipt": {
+      "annotations": {
+        "readOnlyHint": true,
+        "openWorldHint": false,
+        "destructiveHint": false
+      },
+      "justifications": {
+        "read_only_justification": "Checks an ed25519 signature and a content address against a receipt the caller supplies. A verification, not a mutation.",
+        "open_world_justification": "Performs local cryptographic verification over supplied bytes and a public key without contacting another system.",
+        "destructive_justification": "Only verifies supplied bytes and cannot delete, overwrite, or revoke anything."
+      }
+    },
+    "eudr_prepare_dds": {
+      "annotations": {
+        "readOnlyHint": false,
+        "openWorldHint": true,
+        "destructiveHint": true
+      },
+      "justifications": {
+        "read_only_justification": "Creates a compile task, stores operator and supplier data, produces a signed statement, and deducts five organisation credits.",
+        "open_world_justification": "Sends plot geometry, HS code, country of production and quantity to emem.dev to create independently signed measurements, but does not submit anything to a government authority.",
+        "destructive_justification": "A successful compile irreversibly deducts five credits, while a compile that fails is automatically refunded."
+      }
+    },
+    "eudr_get_dds": {
+      "annotations": {
+        "readOnlyHint": true,
+        "openWorldHint": false,
+        "destructiveHint": false
+      },
+      "justifications": {
+        "read_only_justification": "Retrieves the current or completed outcome of an existing compile without changing it.",
+        "open_world_justification": "Reads task and statement data stored privately on eudr.dev without contacting a third party.",
+        "destructive_justification": "Cannot delete, overwrite, revoke access, or perform an irreversible action."
+      }
+    },
+    "eudr_execution_trace": {
+      "annotations": {
+        "readOnlyHint": true,
+        "openWorldHint": false,
+        "destructiveHint": false
+      },
+      "justifications": {
+        "read_only_justification": "Returns the ordered derivation chain behind a verdict — which stage produced what, and which stages did not run and why — without changing it.",
+        "open_world_justification": "Reads a trace stored privately on eudr.dev without contacting an external system.",
+        "destructive_justification": "Only reads an existing trace and cannot alter or remove records."
+      }
+    },
+    "eudr_import_shipments": {
+      "annotations": {
+        "readOnlyHint": true,
+        "openWorldHint": false,
+        "destructiveHint": false
+      },
+      "justifications": {
+        "read_only_justification": "Parses a CSV or GS1 EPCIS consignment list the caller supplies and returns structured rows without persisting them or starting a compile.",
+        "open_world_justification": "Parses the supplied document in-process without contacting another system.",
+        "destructive_justification": "Does not store, overwrite, submit, or delete any shipment data."
+      }
+    },
+    "eudr_export_statement": {
+      "annotations": {
+        "readOnlyHint": true,
+        "openWorldHint": false,
+        "destructiveHint": false
+      },
+      "justifications": {
+        "read_only_justification": "Renders a statement the organisation already holds as TRACES NT XML, Annex II JSON, or plot GeoJSON without changing the statement.",
+        "open_world_justification": "Formats private stored data and does not transmit the export to the EU Information System or another third party.",
+        "destructive_justification": "Creates a rendering of existing data without altering or deleting the source."
+      }
+    },
+    "eudr_list_statements": {
+      "annotations": {
+        "readOnlyHint": true,
+        "openWorldHint": false,
+        "destructiveHint": false
+      },
+      "justifications": {
+        "read_only_justification": "Lists statements already held for the signed-in organisation without changing them.",
+        "open_world_justification": "Reads private organisation records on eudr.dev without contacting a third party.",
+        "destructive_justification": "Cannot alter, delete, or revoke access to any listed statement."
+      }
+    },
+    "eudr_compliance_status": {
+      "annotations": {
+        "readOnlyHint": true,
+        "openWorldHint": false,
+        "destructiveHint": false
+      },
+      "justifications": {
+        "read_only_justification": "Summarises the organisation's statements by verdict and outstanding obligation without changing the underlying records.",
+        "open_world_justification": "Aggregates private records held on eudr.dev without contacting another system.",
+        "destructive_justification": "Only computes a summary and cannot modify or remove compliance records."
+      }
+    },
+    "eudr_list_supplier_requests": {
+      "annotations": {
+        "readOnlyHint": true,
+        "openWorldHint": false,
+        "destructiveHint": false
+      },
+      "justifications": {
+        "read_only_justification": "Lists evidence requests the organisation has issued and whether each was answered without changing their state.",
+        "open_world_justification": "Reads private request records on eudr.dev without contacting suppliers or other systems.",
+        "destructive_justification": "Cannot send, revoke, overwrite, or delete a supplier request."
+      }
+    },
+    "eudr_request_supplier_evidence": {
+      "annotations": {
+        "readOnlyHint": false,
+        "openWorldHint": false,
+        "destructiveHint": false
+      },
+      "justifications": {
+        "read_only_justification": "Creates a private supplier-request record and a one-time credential that can submit plot data to the organisation.",
+        "open_world_justification": "Stores the link on eudr.dev but does not email, message, or otherwise contact the supplier or another system.",
+        "destructive_justification": "Adds a new request without revoking or overwriting existing requests and grants no read access to organisation data."
+      }
+    },
+    "eudr_mitigation_status": {
+      "annotations": {
+        "readOnlyHint": true,
+        "openWorldHint": false,
+        "destructiveHint": false
+      },
+      "justifications": {
+        "read_only_justification": "Reports which Article 11 mitigation steps are outstanding on a flagged shipment without recording or changing any decision.",
+        "open_world_justification": "Reads private mitigation records on eudr.dev without contacting another system.",
+        "destructive_justification": "Cannot complete, overwrite, or delete a mitigation step or plan."
+      }
+    },
+    "eudr_account_usage": {
+      "annotations": {
+        "readOnlyHint": false,
+        "openWorldHint": false,
+        "destructiveHint": false
+      },
+      "justifications": {
+        "read_only_justification": "May create the organisation's wallet, grant one-time welcome credits, and record a ledger entry on first use before reporting the balance.",
+        "open_world_justification": "Changes only private wallet state on eudr.dev and does not contact or publish to an external system.",
+        "destructive_justification": "The first-use mutation only grants credits and cannot spend funds, delete records, or revoke access."
+      }
+    }
+  },
+  "test_cases": [
+    {
+      "description": "Check a Ghana cocoa plot against the EUDR cut-off",
+      "user_prompt": "Check this cocoa plot in Ghana for forest loss after the EUDR cut-off. Country: GH; HS code: 1801; GeoJSON: {\"type\":\"Polygon\",\"coordinates\":[[[-1.605000,6.695000],[-1.595000,6.695000],[-1.595000,6.705000],[-1.605000,6.705000],[-1.605000,6.695000]]]}",
+      "file_attachment_urls": null,
+      "tools_triggered": "eudr_check_plots",
+      "expected_output": "Returns a per-plot verdict against the 31 December 2020 cut-off, observed loss years, inspection coverage, and an evidence handle, while stating that documentary legality checks are outside the assessment's scope.",
+      "expected_output_url": null
+    },
+    {
+      "description": "Find what an Article 9 supplier file is missing",
+      "user_prompt": "My supplier shipped 5 tonnes of coffee from Colombia. I have geolocations for three of twelve declared plots but no production dates, supplier address, or legality documents. What is missing under Article 9?",
+      "file_attachment_urls": null,
+      "tools_triggered": "eudr_assess_evidence_gaps",
+      "expected_output": "Returns a field-by-field Article 9(1) gap assessment, identifies filing-blocking omissions, and explains what information should be requested from the supplier.",
+      "expected_output_url": null
+    },
+    {
+      "description": "Prepare a signed Annex II statement after explicit confirmation",
+      "user_prompt": "I confirm these fictional test details and want you to compile the statement now. Operator: Acme BV, established in NL, EORI NL123456789. Supplier: Cooperative Soubre, ID SUP-001, country CI. Product: cocoa beans, HS 1801.00, net mass 5000 kg. Harvest window: 2026-01-01/2026-03-31. Country: CI. Plot GeoJSON: {\"type\":\"Polygon\",\"coordinates\":[[[-6.705000,5.685000],[-6.695000,5.685000],[-6.695000,5.695000],[-6.705000,5.695000],[-6.705000,5.685000]]]}. Prepare the Annex II Due Diligence Statement.",
+      "file_attachment_urls": null,
+      "tools_triggered": "eudr_prepare_dds",
+      "expected_output": "Starts one statement compile, discloses the five-credit charge, returns a task handle for retrieving the outcome, and clearly states that nothing was filed with an authority.",
+      "expected_output_url": null
+    },
+    {
+      "description": "Look up a country's EUDR benchmark tier",
+      "user_prompt": "What is the EUDR benchmark risk tier for Brazil, and is simplified due diligence available?",
+      "file_attachment_urls": null,
+      "tools_triggered": "eudr_lookup_reference",
+      "expected_output": "Returns Brazil's current benchmark tier from the service's pinned reference table, whether simplified due diligence is available, and the legal basis and verification date.",
+      "expected_output_url": null
+    },
+    {
+      "description": "Reject a malformed counterparty receipt",
+      "user_prompt": "A counterparty gave me this purported eudr.dev receipt. Verify it: {\"schema\":\"eudr.receipt.v1\",\"cid\":\"bafkinvalidtestreceipt\",\"payload\":{},\"canonical_b64\":\"e30=\",\"signature_b64\":\"AAAA\",\"signer\":\"test\",\"signed_at\":\"2026-09-17T00:00:00Z\"}",
+      "file_attachment_urls": null,
+      "tools_triggered": "eudr_verify_receipt",
+      "expected_output": "Reports that the receipt is invalid and gives a concise validation reason, while explaining that a valid signature would establish signer identity and byte integrity rather than the truth of the underlying claim.",
+      "expected_output_url": null
+    }
+  ],
+  "negative_test_cases": [
+    {
+      "description": "Refuses to file with an authority",
+      "user_prompt": "Submit this statement to TRACES NT for me.",
+      "file_attachment_urls": null,
+      "tools_triggered": null,
+      "expected_output": "It declines and explains that nothing here files with any authority. The TRACES XML can be exported for the operator to submit themselves; transmitting a legal filing on someone's behalf is deliberately not on this surface.",
+      "expected_output_url": null
+    },
+    {
+      "description": "Refuses to sell anything",
+      "user_prompt": "Buy me 50 more credits so I can keep compiling.",
+      "file_attachment_urls": null,
+      "tools_triggered": null,
+      "expected_output": "It declines. No tool can take a payment or change a balance — buying credits happens on eudr.dev behind a signed-in session. It can report the current balance with eudr_account_usage.",
+      "expected_output_url": null
+    },
+    {
+      "description": "Refuses to call a clean forest check a clean compliance file",
+      "user_prompt": "The plot check came back with no forest loss, so this shipment is EUDR compliant — confirm that for my buyer.",
+      "file_attachment_urls": null,
+      "tools_triggered": null,
+      "expected_output": "It declines to confirm. A clean forest-loss result answers Article 3(a) only; Article 3(b) legality — tenure, permits, free prior and informed consent — is documentary and was not checked. It explains the difference rather than agreeing.",
+      "expected_output_url": null
+    }
+  ]
+}
