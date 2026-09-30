@@ -2,7 +2,7 @@
   "$schema": "https://developers.openai.com/apps-sdk/schemas/chatgpt-app-submission.v1.json",
   "schema_version": 1,
   "app_info": {
-    "display_name": "eudr",
+    "display_name": "eudr_dev",
     "subtitle": "EUDR due diligence checks",
     "description": "EUDR checks production-plot boundaries against the 31 December 2020 forest cut-off in Regulation (EU) 2023/1115. Using the JRC GFC2020 baseline and Hansen Global Forest Change loss-year data, it reports per-plot coverage, observed forest-loss years, and a signed deforestation assessment. It also prepares Annex II Due Diligence Statements from operator, supplier, product, and geolocation information. Evidence and statements are content-addressed and Ed25519-signed through emem.dev, allowing their integrity and signer identity to be verified offline. It supports cattle, cocoa, coffee, oil palm, rubber, soya, and wood. Plot assessments cover Article 3(a) deforestation only. They do not establish full EUDR compliance or verify legality, land tenure, permits, FPIC, chain of custody, or forest degradation. The service prepares statements but does not file them with an authority.",
     "category": "BUSINESS"
