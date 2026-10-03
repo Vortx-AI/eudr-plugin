@@ -3,7 +3,7 @@
   "schema_version": "1.0",
   "app_info": {
     "display_name": "EUDR compliance",
-    "subtitle": "Check plots for deforestation and prepare the EU filing",
+    "subtitle": "Deforestation checks and DDS",
     "description": "Check agricultural plots for forest loss after the EU Deforestation Regulation's 31 December 2020 cut-off, find what an Article 9 supplier file is missing, and compile a signed Annex II Due Diligence Statement. Every verdict is measured per satellite cell rather than estimated from an area average, and every statement carries two independent signatures — ours over the document and emem.dev's over the satellite measurement — so a buyer or an auditor can verify it offline without trusting either of us. It answers Article 3(a), deforestation-free, and says on every response which checks it did not perform: land tenure, permits and free, prior and informed consent are documentary questions that satellites cannot answer.",
     "category": "productivity"
   },
