@@ -1,8 +1,28 @@
 {
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/mcp.schema.json",
   "mcpServers": {
     "eudr": {
-      "type": "http",
-      "url": "https://eudr.dev/mcp"
+      "type": "streamable-http",
+      "url": "https://eudr.dev/mcp",
+      "extensions": {
+        "com.openai": {
+          "auth": {
+            "type": "mixed",
+            "client": {
+              "mode": "dcr"
+            },
+            "authorizationUrl": "https://eudr.dev/oauth/authorize",
+            "tokenUrl": "https://eudr.dev/oauth/token",
+            "registrationUrl": "https://eudr.dev/oauth/register",
+            "authorizationServerBase": "https://eudr.dev",
+            "resource": "https://eudr.dev/mcp",
+            "baseScopes": [
+              "eudr:read",
+              "eudr:write"
+            ]
+          }
+        }
+      }
     }
   }
 }
