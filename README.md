@@ -21,6 +21,18 @@ Or point Claude Code at a checkout of this repository:
 claude --plugin-dir ./eudr-plugin
 ```
 
+## One repository, two directories
+
+Claude and ChatGPT read different files, and Claude's directory refuses fields it does not know.
+
+| Directory | Files it reads | Where they are |
+|---|---|---|
+| Claude | `.claude-plugin/plugin.json`, `.mcp.json` | In this repository. Keep them to the fields Claude Code reads. |
+| ChatGPT | `plugin.json`, `mcp.json` (Agent Plugins format, with the OpenAI sign-in settings) | Built by `python3 scripts/build_chatgpt_package.py` into `dist/eudr-chatgpt-<version>.zip`. |
+
+Do not add OpenAI fields to `.mcp.json`. Change the ChatGPT settings in `scripts/build_chatgpt_package.py`.
+Before a push, run `claude plugin validate . --strict`.
+
 ## What it connects to
 
 A remote MCP server at `https://eudr.dev/mcp`. No account, no API key,
