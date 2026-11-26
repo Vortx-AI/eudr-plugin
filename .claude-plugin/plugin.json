@@ -2,8 +2,8 @@
   "$schema": "https://json.schemastore.org/claude-code-plugin-manifest.json",
   "name": "eudr",
   "displayName": "EUDR compliance",
-  "version": "0.3.2",
-  "description": "Check farm plots for forest loss after the EU Deforestation Regulation cut-off, find missing Article 9 information per supplier, and prepare a signed Annex II Due Diligence Statement.",
+  "version": "0.3.3",
+  "description": "Check farm plots for forest loss after the EU Deforestation Regulation cut-off, find missing Article 9 information per supplier, and prepare a signed Annex II Due Diligence Statement. Some tools do more than read: preparing a statement spends credits and publishes a 7-day share link, plot and farm tools send plot geometry to emem.dev for measurement, a supplier request creates a link that lets its holder submit data, and setting a farm boundary replaces the old one. The README lists which tool does what.",
   "icon": "./assets/icon.png",
   "author": {
     "name": "Vortx AI Private Limited",
