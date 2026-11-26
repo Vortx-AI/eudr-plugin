@@ -24,7 +24,7 @@ That one line needs Claude Code 2.1.275 or later. On an older version, add the m
 Or point Claude Code at a checkout of this repository:
 
 ```
-claude --plugin-dir ./eudr-plugin/claude
+claude --plugin-dir ./eudr-plugin
 ```
 
 ## One repository, two directories
@@ -33,12 +33,15 @@ Claude and ChatGPT read different files, and Claude's directory refuses fields i
 
 | Directory | Files it reads | Where they are |
 |---|---|---|
-| Claude | `claude/.claude-plugin/plugin.json`, `claude/.mcp.json`, `claude/skills/` | In `claude/`, the folder submitted to Claude's directory (plugin path `claude`). Keep them to the fields Claude Code reads, and put no script in that folder. |
-| ChatGPT | `plugin.json`, `mcp.json` (Agent Plugins format, with the OpenAI sign-in settings) | Built by `python3 scripts/build_chatgpt_package.py` into `dist/eudr-chatgpt-<version>.zip`. |
+| Claude | `.claude-plugin/plugin.json`, `.mcp.json`, `skills/` | This repository, which Claude's directory reads from the root. |
+| ChatGPT | `plugin.json`, `mcp.json` (Agent Plugins format, with the OpenAI sign-in settings) | Not stored here. Built from this repository into a zip by the eudr.dev team. |
 
-Do not add OpenAI fields to `claude/.mcp.json`. Change the ChatGPT settings in `scripts/build_chatgpt_package.py`.
-Keep plugin files (`.mcp.json`, `skills/`, `commands/`, `agents/`, `hooks/`) out of the repository root: the root holds the marketplace, and Claude's directory refuses a marketplace folder that holds plugin files no entry lists. The ChatGPT `mcp.json` is written into the package by the script.
-Before a push, run `claude plugin validate claude --strict` and `claude plugin validate . --strict`.
+Claude's directory scans this whole repository and refuses it if it holds a script or program (any `.py`, `.sh`, `.js` or file starting with `#!`), or a field Claude Code does not read. So:
+
+- keep `.mcp.json` to `type` and `url`, with no OpenAI fields;
+- keep scripts, including the ChatGPT package builder, out of this repository.
+
+Before a push, run `claude plugin validate . --strict`.
 
 ## What it connects to
 

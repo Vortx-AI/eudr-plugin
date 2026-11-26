@@ -12,7 +12,7 @@
     {
       "name": "eudr",
       "displayName": "EUDR compliance",
-      "source": "./claude",
+      "source": "./",
       "description": "Check farm plots for forest loss after the EU Deforestation Regulation cut-off, find missing Article 9 information per supplier, and prepare a signed Annex II Due Diligence Statement.",
       "version": "0.3.2",
       "author": {
