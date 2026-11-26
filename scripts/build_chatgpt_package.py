@@ -3,16 +3,17 @@
 
 One repository serves two directories that read different files:
 
-- Claude reads `.claude-plugin/plugin.json` and `.mcp.json`. Its directory
-  refuses any field outside its allowed lists (LOCAL_CODE_UNKNOWN_KEY), so
-  those two files stay minimal and no OpenAI field may be in the repository
-  as a manifest or MCP file.
+- Claude reads the plugin in `claude/`: `claude/.claude-plugin/plugin.json`,
+  `claude/.mcp.json` and `claude/skills/`. Its directory scans only that
+  folder (the plugin path given at submission) and refuses any field outside
+  its allowed lists, and any script, so those files stay minimal and this
+  script stays outside the folder.
 - ChatGPT reads a root `plugin.json` and a root `mcp.json` in the Agent
   Plugins format, with its sign-in settings under `extensions["com.openai"]`.
 
 This script writes the ChatGPT files from the Claude manifest plus the
 overlay below, and zips them with the same skills. The name, version,
-description and author come from `.claude-plugin/plugin.json`, so the two
+description and author come from `claude/.claude-plugin/plugin.json`, so the two
 packages cannot drift apart.
 
     python3 scripts/build_chatgpt_package.py        # writes dist/eudr-chatgpt-<version>.zip
@@ -24,6 +25,8 @@ import zipfile
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 ENDPOINT = "https://eudr.dev/mcp"
+# The Claude plugin, the folder submitted to Claude's directory.
+CLAUDE = ROOT / "claude"
 
 # Listing text for ChatGPT. Same words as chatgpt-app-submission.json.
 INTERFACE = {
@@ -52,9 +55,9 @@ AUTH = {
 
 
 def build():
-    claude = json.loads((ROOT / ".claude-plugin/plugin.json").read_text())
+    claude = json.loads((CLAUDE / ".claude-plugin/plugin.json").read_text())
     app = json.loads((ROOT / "chatgpt-app-submission.json").read_text())["app_info"]
-    claude_mcp = json.loads((ROOT / ".mcp.json").read_text())["mcpServers"]
+    claude_mcp = json.loads((CLAUDE / ".mcp.json").read_text())["mcpServers"]
     if list(claude_mcp) != ["eudr"] or claude_mcp["eudr"].get("url") != ENDPOINT:
         sys.exit("the Claude .mcp.json no longer names one server 'eudr' at " + ENDPOINT)
 
@@ -90,9 +93,9 @@ def build():
         z.writestr("mcp.json", json.dumps(mcp, indent=2) + "\n")
         for name in ("README.md", "LICENSE"):
             z.write(ROOT / name, name)
-        for f in sorted((ROOT / "skills").rglob("*")):
+        for f in sorted((CLAUDE / "skills").rglob("*")):
             if f.is_file():
-                z.write(f, f.relative_to(ROOT).as_posix())
+                z.write(f, f.relative_to(CLAUDE).as_posix())
         for f in sorted((ROOT / "submission-assets").glob("chatgpt-*.png")):
             z.write(f, "assets/" + f.name)
         names = z.namelist()

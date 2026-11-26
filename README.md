@@ -11,6 +11,12 @@ evidence, not the people asking for farming advice.
 ## Install
 
 ```
+/plugin install eudr --marketplace Vortx-AI/eudr-plugin
+```
+
+That one line needs Claude Code 2.1.275 or later. On an older version, add the marketplace first:
+
+```
 /plugin marketplace add Vortx-AI/eudr-plugin
 /plugin install eudr@eudr
 ```
@@ -18,7 +24,7 @@ evidence, not the people asking for farming advice.
 Or point Claude Code at a checkout of this repository:
 
 ```
-claude --plugin-dir ./eudr-plugin
+claude --plugin-dir ./eudr-plugin/claude
 ```
 
 ## One repository, two directories
@@ -27,11 +33,12 @@ Claude and ChatGPT read different files, and Claude's directory refuses fields i
 
 | Directory | Files it reads | Where they are |
 |---|---|---|
-| Claude | `.claude-plugin/plugin.json`, `.mcp.json` | In this repository. Keep them to the fields Claude Code reads. |
+| Claude | `claude/.claude-plugin/plugin.json`, `claude/.mcp.json`, `claude/skills/` | In `claude/`, the folder submitted to Claude's directory (plugin path `claude`). Keep them to the fields Claude Code reads, and put no script in that folder. |
 | ChatGPT | `plugin.json`, `mcp.json` (Agent Plugins format, with the OpenAI sign-in settings) | Built by `python3 scripts/build_chatgpt_package.py` into `dist/eudr-chatgpt-<version>.zip`. |
 
-Do not add OpenAI fields to `.mcp.json`. Change the ChatGPT settings in `scripts/build_chatgpt_package.py`.
-Before a push, run `claude plugin validate . --strict`.
+Do not add OpenAI fields to `claude/.mcp.json`. Change the ChatGPT settings in `scripts/build_chatgpt_package.py`.
+The root `.mcp.json` is outside the Claude plugin and is not read by Claude.
+Before a push, run `claude plugin validate claude --strict` and `claude plugin validate . --strict`.
 
 ## What it connects to
 
