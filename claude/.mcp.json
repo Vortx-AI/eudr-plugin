@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "eudr": {
+      "type": "http",
+      "url": "https://eudr.dev/mcp"
+    }
+  }
+}
