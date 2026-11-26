@@ -37,7 +37,7 @@ Claude and ChatGPT read different files, and Claude's directory refuses fields i
 | ChatGPT | `plugin.json`, `mcp.json` (Agent Plugins format, with the OpenAI sign-in settings) | Built by `python3 scripts/build_chatgpt_package.py` into `dist/eudr-chatgpt-<version>.zip`. |
 
 Do not add OpenAI fields to `claude/.mcp.json`. Change the ChatGPT settings in `scripts/build_chatgpt_package.py`.
-The root `.mcp.json` is outside the Claude plugin and is not read by Claude.
+Keep plugin files (`.mcp.json`, `skills/`, `commands/`, `agents/`, `hooks/`) out of the repository root: the root holds the marketplace, and Claude's directory refuses a marketplace folder that holds plugin files no entry lists. The ChatGPT `mcp.json` is written into the package by the script.
 Before a push, run `claude plugin validate claude --strict` and `claude plugin validate . --strict`.
 
 ## What it connects to
